@@ -6,6 +6,9 @@ import Signup from "../Pages/signup/Signup.jsx"
 import ProductOverview from './productDetail/ProductDetail.jsx'
 import Cart from "./cart/Cart.jsx"
 import Checkoutform from "../Pages/checkout/Checkout.jsx"
+import Layout from "../Layout/Layout.jsx";
+import Footer from '../Layout/footer/Footer.jsx'
+
 export {
   Navbar,
   Home,
@@ -14,5 +17,7 @@ export {
   Signup,
   ProductOverview,
   Cart,
-  Checkoutform
+  Checkoutform,
+  Layout,
+  Footer
 }

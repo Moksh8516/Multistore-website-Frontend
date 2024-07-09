@@ -1,6 +1,5 @@
 import React from "react";
-import { increment, incrementAsync, selectCount } from "./ProductSlice";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Fragment, useState } from "react";
 import {
   Dialog,
@@ -31,13 +30,7 @@ const sortOptions = [
   { name: "Price: Low to High", href: "#", current: false },
   { name: "Price: High to Low", href: "#", current: false },
 ];
-const subCategories = [
-  { name: "Totes", href: "#" },
-  { name: "Backpacks", href: "#" },
-  { name: "Travel Bags", href: "#" },
-  { name: "Hip Bags", href: "#" },
-  { name: "Laptop Sleeves", href: "#" },
-];
+
 const filters = [
   {
     id: "color",
@@ -74,51 +67,17 @@ const filters = [
       { value: "2XL", label: "2XL", checked: false },
     ],
   },
+  {
+    id: "Price",
+    name: "Price",
+    options: [
+      { value: "50", label: "50", checked: false },
+      { value: "100000", label: "100000", checked: false },
+    ],
+  },
 ];
 
-const products = [
-  {
-    id: 1,
-    name: "Earthen Bottle",
-    href: "#",
-    price: "$48",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg",
-    imageAlt:
-      "Tall slender porcelain bottle with natural clay textured body and cork stopper.",
-  },
-  {
-    id: 2,
-    name: "Nomad Tumbler",
-    href: "#",
-    price: "$35",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg",
-    imageAlt:
-      "Olive drab green insulated bottle with flared screw lid and flat top.",
-  },
-  {
-    id: 3,
-    name: "Focus Paper Refill",
-    href: "#",
-    price: "$89",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg",
-    imageAlt:
-      "Person using a pen to cross a task off a productivity paper card.",
-  },
-  {
-    id: 4,
-    name: "Machined Mechanical Pencil",
-    href: "#",
-    price: "$35",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-04.jpg",
-    imageAlt:
-      "Hand holding black machined steel mechanical pencil with brass tip and top.",
-  },
-  // More products...
-];
+import { products } from "./product";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -127,8 +86,30 @@ function classNames(...classes) {
 function ProductList({ ...classes }) {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleFilter = (value, sectionId) => {
+    const searchParams = new URLSearchParams(location.search);
+    let filterValue = searchParams.getAll(sectionId);
+
+    if (filterValue.length > 0 && filterValue[0].split(",").includes(value)) {
+      filterValue = filterValue[0].split(",").filter((item) => item !== value);
+      if (filterValue.length === 0) {
+        searchParams.delete(sectionId);
+      } else {
+        filterValue.push(value);
+      }
+      if (filterValue.length > 0) {
+        searchParams.set(sectionId.filterValue.join(","));
+        const query = searchParams.toString();
+        navigate({ search: `?${query}` });
+      }
+    }
+  };
+
   return (
-    <div className="bg-white">
+    <div className="bg-white ">
       <div>
         {/* Mobile filter dialog */}
         <Transition show={mobileFiltersOpen}>
@@ -173,20 +154,6 @@ function ProductList({ ...classes }) {
 
                   {/* Filters */}
                   <form className="mt-4 border-t border-gray-200">
-                    {/* <h3 className="sr-only">Categories</h3>
-                    <ul
-                      role="list"
-                      className="px-2 py-3 font-medium text-gray-900"
-                    >
-                      {subCategories.map((category) => (
-                        <li key={category.name}>
-                          <a href={category.href} className="block px-2 py-3">
-                            {category.name}
-                          </a>
-                        </li>
-                      ))}
-                    </ul> */}
-
                     {filters.map((section) => (
                       <Disclosure
                         as="div"
@@ -320,6 +287,7 @@ function ProductList({ ...classes }) {
             </div>
           </div>
 
+          {/* Desktop responsive */}
           <section aria-labelledby="products-heading" className="pb-24 pt-6">
             <h2 id="products-heading" className="sr-only">
               Products
@@ -328,18 +296,6 @@ function ProductList({ ...classes }) {
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
               {/* Filters */}
               <form className="hidden lg:block">
-                {/* <h3 className="sr-only">Categories</h3>
-                <ul
-                  role="list"
-                  className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900"
-                >
-                  {subCategories.map((category) => (
-                    <li key={category.name}>
-                      <a href={category.href}>{category.name}</a>
-                    </li>
-                  ))}
-                </ul> */}
-
                 {filters.map((section) => (
                   <Disclosure
                     as="div"
@@ -377,6 +333,9 @@ function ProductList({ ...classes }) {
                               >
                                 <input
                                   id={`filter-${section.id}-${optionIdx}`}
+                                  onChange={() =>
+                                    handleFilter(option.value, section.id)
+                                  }
                                   name={`${section.id}[]`}
                                   defaultValue={option.value}
                                   type="checkbox"
@@ -397,6 +356,7 @@ function ProductList({ ...classes }) {
                     )}
                   </Disclosure>
                 ))}
+                {/* new add items */}
               </form>
 
               {/* Product grid */}
@@ -410,20 +370,23 @@ function ProductList({ ...classes }) {
                         <Link
                           key={product.id}
                           to="/product"
-                          className="group shadow-md border-gray-300 pb-2"
+                          className="group shadow-lg shadow-gray-300 rounded-lg  pb-2"
                         >
-                          <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7 2xl:aspect-h-12 2xl:aspect-w-10">
+                          <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-100 xl:aspect-h-8 xl:aspect-w-7 2xl:aspect-h-12 2xl:aspect-w-10 ">
                             <img
-                              src={product.imageSrc}
+                              src={product.imageUrl}
                               alt={product.imageAlt}
-                              className="h-full w-full object-cover object-center group-hover:opacity-75"
+                              className="h-full w-full object-cover group-hover:opacity-75"
                             />
                           </div>
-                          <h3 className="mt-4 text-sm text-gray-700 md:text-base xl:text-lg 2xl:text-xl">
-                            {product.name}
+                          <h3 className="mt-4 pl-3 text-sm font-bold text-gray-700 md:text-base xl:text-lg 2xl:text-xl">
+                            {product.brand}
                           </h3>
-                          <p className="mt-1 text-lg font-medium text-gray-900 2xl:text-xl">
-                            {product.price}
+                          <h3 className="mt-4 pl-3 text-sm text-gray-700 md:text-base xl:text-lg 2xl:text-xl">
+                            {product.title}
+                          </h3>
+                          <p className="mt-1 pl-3 text-lg font-medium text-gray-900 2xl:text-xl">
+                            ₹ {product.price}
                           </p>
                         </Link>
                       ))}

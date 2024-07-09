@@ -2,6 +2,10 @@ import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Cart.css";
+import { IconButton } from "@mui/material";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+
 const products = [
   {
     id: 1,
@@ -9,6 +13,8 @@ const products = [
     href: "#",
     color: "Salmon",
     price: "$90.00",
+    amount: "$180.00",
+    discount: "50% Off",
     quantity: 1,
     imageSrc:
       "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg",
@@ -21,6 +27,8 @@ const products = [
     href: "#",
     color: "Blue",
     price: "$32.00",
+    amount: "$132.00",
+    discount: "70% Off",
     quantity: 1,
     imageSrc:
       "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
@@ -31,16 +39,6 @@ const products = [
 ];
 
 function Cart() {
-  const [counter, setCounter] = useState(1);
-
-  const increment = () => {
-    setCounter(counter + 1);
-  };
-
-  const decrement = () => {
-    setCounter(counter - 1);
-  };
-
   const [open, setOpen] = useState(true);
   return (
     <div className="mx-auto max-w-7xl bg-gray-50 px-4 sm:px-6 lg:px-8 pt-5">
@@ -60,7 +58,7 @@ function Cart() {
                   />
                 </div>
 
-                <div className="ml-4 flex flex-1 flex-col">
+                <div className="ml-4 flex flex-1 flex-col gap-1">
                   <div>
                     <div className="flex justify-between text-base font-medium text-gray-900">
                       <h3>
@@ -68,40 +66,30 @@ function Cart() {
                       </h3>
                       <p className="ml-4">{product.price}</p>
                     </div>
-                    <p className="mt-1 text-sm text-gray-500">
+                    <p className="text-gray-600 mt-1 text-base">
                       {product.color}
                     </p>
+                    <div className=" flex space-x-5 items-center text-gray-900 mt-4">
+                      <p className=" font-semibold">{product.price}</p>
+                      <p className="opacity-60 line-through">
+                        {product.amount}
+                      </p>
+                      <p className="text-green-600 font-semibold">
+                        {product.discount}
+                      </p>
+                    </div>
                   </div>
 
-                  <div className="flex flex-1 items-end justify-between text-sm">
-                    <div className="text-gray-500">
-                      <label
-                        htmlFor="quantity"
-                        className="block text-sm font-medium leading-6 text-gray-600"
-                      >
-                        Qty
-                      </label>
-                      {/* <select>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                      </select> */}
-                      <div className="flex gap-2 justify-center items-center my-2">
-                        <p
-                          className="p-1 sm:text-lg lg:text-xl border border-gray-300 text-gray-800 w-5 text-center bg-gray-100 rounded shadow-md "
-                          onClick={decrement}
-                        >
-                          -
-                        </p>
-                        <select className="border text-gray-800 p-1 border-gray-400 text-center w-7 bg-gray-100 rounded appearance-none">
-                          <option value={counter}>{counter}</option>
-                        </select>
-                        <p
-                          className="p-1 sm:text-lg lg:text-xl border border-gray-300 text-gray-800 w-5 text-center bg-gray-100 rounded shadow-md "
-                          onClick={increment}
-                        >
-                          +
-                        </p>
-                      </div>
+                  <div className="flex flex-1 justify-between text-sm items-center">
+                    <div className="text-gray-500 flex items-center space-x-2">
+                      <IconButton>
+                        <RemoveCircleOutlineIcon sx={{ color: "#9333ea" }} />
+                      </IconButton>
+                      <span className="border text-gray-700 py-1 px-3">1</span>
+
+                      <IconButton>
+                        <AddCircleOutlineIcon sx={{ color: "#9333ea" }} />
+                      </IconButton>
                     </div>
 
                     <div className="flex">
@@ -131,7 +119,7 @@ function Cart() {
         <div className="mt-6">
           <Link
             to="/checkout-form"
-            className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+            className="flex items-center justify-center rounded-lg border border-transparent  px-6 py-3 text-base font-medium text-white shadow-sm bg-violet-600 hover:bg-violet-700"
           >
             Checkout
           </Link>
@@ -142,7 +130,7 @@ function Cart() {
             <Link to="/">
               <button
                 type="button"
-                className="font-medium text-indigo-600 hover:text-indigo-500"
+                className="font-medium text-violet-600 hover:text-violet-500"
                 onClick={() => setOpen(false)}
               >
                 Continue Shopping

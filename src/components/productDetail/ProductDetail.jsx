@@ -2,6 +2,18 @@ import React, { useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { Radio, RadioGroup } from "@headlessui/react";
 import { Link } from "react-router-dom";
+import { Rating } from "@mui/material";
+import ProductReview from "./ProductReview";
+import HomeCarousel from "../home/HomeCarousel";
+
+const kurta = [
+  {
+    id: 1,
+  },
+  {
+    id: 2,
+  },
+];
 const product = {
   name: "Basic Tee 6-Pack",
   price: "$192",
@@ -59,7 +71,7 @@ const reviews = { href: "#", average: 4, totalCount: 117 };
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-
+let value = 4;
 function ProductDetail() {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
@@ -75,12 +87,12 @@ function ProductDetail() {
               {product.breadcrumbs.map((breadcrumb) => (
                 <li key={breadcrumb.id}>
                   <div className="flex items-center">
-                    <a
-                      href={breadcrumb.href}
+                    <Link
+                      to={breadcrumb.href}
                       className="mr-2 text-sm font-medium text-gray-900"
                     >
                       {breadcrumb.name}
-                    </a>
+                    </Link>
                     <svg
                       width={16}
                       height={20}
@@ -95,13 +107,13 @@ function ProductDetail() {
                 </li>
               ))}
               <li className="text-sm">
-                <a
-                  href={product.href}
+                <Link
+                  to={product.href}
                   aria-current="page"
                   className="font-medium text-gray-500 hover:text-gray-600"
                 >
                   {product.name}
-                </a>
+                </Link>
               </li>
             </ol>
           </nav>
@@ -110,16 +122,19 @@ function ProductDetail() {
           <section className="grid sm:grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-10 px-4 pt-10">
             {/* Image gallery */}
             <div className="flex flex-col items-center">
-              <div className=" overflow-hidden rounded-lg lg:block max-w-[36rem] max-h-[35rem]">
+              <div className=" overflow-hidden rounded-lg max-w-[36rem] max-h-[35rem]">
                 <img
                   src={product.images[0].src}
                   alt={product.images[0].alt}
                   className="h-full w-full object-cover object-center"
                 />
               </div>
-              <div className="flex flex-wrap  justify-center space-x-5">
-                {product.images.map((items) => (
-                  <div className=" max-w-[5rem] max-h-[5rem] mt-4 overflow-hidden rounded-lg aspect-h-2 aspect-w-3  w-full ">
+              <div className="flex flex-wrap space-x-5 justify-center">
+                {product.images.map((items, index) => (
+                  <div
+                    className=" max-w-[5rem] max-h-[5rem] mt-4 overflow-hidden rounded-lg"
+                    key={index}
+                  >
                     <img
                       key={items.name}
                       src={items.src}
@@ -132,9 +147,12 @@ function ProductDetail() {
             </div>
 
             {/* Product info */}
-            <div className="lg:col-span-1 max-w-2xl px-4 pb-16 sm:px-6 lg:max-w-7xl lg:px-8 lg:pb-24">
-              <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-                <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+            <div className="lg:col-span-1 max-w-2xl px-4 pb-10 sm:px-6 lg:max-w-7xl lg:px-8 lg:pb-10">
+              <div className="lg:col-span-2 ">
+                <h1 className="lg:text-3xl font-semibold text-base tracking-tight text-gray-900 sm:text-lg my-2 lg:py-2">
+                  brand Moksh
+                </h1>
+                <h1 className="lg:text-2xl font-bold text-base tracking-tight text-gray-900 sm:text-lg my-2 opacity-70">
                   {product.name}
                 </h1>
               </div>
@@ -142,41 +160,36 @@ function ProductDetail() {
               {/* Options */}
               <div className="mt-4 lg:row-span-3 lg:mt-0">
                 <h2 className="sr-only">Product information</h2>
-                <p className="text-3xl tracking-tight text-gray-900">
-                  {product.price}
-                </p>
+                <div className="flex space-x-5 items-center text-base lg:text-xl text-gray-900 ">
+                  <p className="font-semibold">₹ 199</p>
+                  <p className="opacity-50 line-through">₹ 300</p>
+                  <p className="text-green-700 font-semibold">33% off</p>
+                </div>
 
                 {/* Reviews */}
-                <div className="mt-6">
+                <div className="mt-4">
                   <h3 className="sr-only">Reviews</h3>
                   <div className="flex items-center">
-                    <div className="flex items-center">
-                      {[0, 1, 2, 3, 4].map((rating) => (
-                        <StarIcon
-                          key={rating}
-                          className={classNames(
-                            reviews.average > rating
-                              ? "text-gray-900"
-                              : "text-gray-200",
-                            "h-5 w-5 flex-shrink-0"
-                          )}
-                          aria-hidden="true"
-                        />
-                      ))}
-                    </div>
+                    <Rating
+                      name="simple-controlled"
+                      value={value}
+                      onChange={(event, newValue) => {
+                        setValue(newValue);
+                      }}
+                    />
                     <p className="sr-only">{reviews.average} out of 5 stars</p>
-                    <a
-                      href={reviews.href}
+                    <Link
+                      to={reviews.href}
                       className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
                     >
                       {reviews.totalCount} reviews
-                    </a>
+                    </Link>
                   </div>
                 </div>
 
-                <form className="mt-10">
+                <form className="mt-6">
                   {/* Colors */}
-                  <div>
+                  {/* <div>
                     <h3 className="text-sm font-medium text-gray-900">Color</h3>
 
                     <fieldset aria-label="Choose a color" className="mt-4">
@@ -210,27 +223,21 @@ function ProductDetail() {
                         ))}
                       </RadioGroup>
                     </fieldset>
-                  </div>
+                  </div> */}
 
                   {/* Sizes */}
-                  <div className="mt-10">
+                  <div className="mt-6">
                     <div className="flex items-center justify-between">
                       <h3 className="text-sm font-medium text-gray-900">
                         Size
                       </h3>
-                      <a
-                        href="#"
-                        className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                      >
-                        Size guide
-                      </a>
                     </div>
 
                     <fieldset aria-label="Choose a size" className="mt-4">
                       <RadioGroup
                         value={selectedSize}
                         onChange={setSelectedSize}
-                        className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4"
+                        className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-10"
                       >
                         {product.sizes.map((size) => (
                           <Radio
@@ -242,7 +249,7 @@ function ProductDetail() {
                                 size.inStock
                                   ? "cursor-pointer bg-white text-gray-900 shadow-sm"
                                   : "cursor-not-allowed bg-gray-50 text-gray-200",
-                                focus ? "ring-2 ring-indigo-500" : "",
+                                focus ? "ring-2 ring-violet-500" : "",
                                 "group relative flex items-center justify-center rounded-md border px-4 py-3 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6"
                               )
                             }
@@ -254,7 +261,7 @@ function ProductDetail() {
                                   <span
                                     className={classNames(
                                       checked
-                                        ? "border-indigo-500"
+                                        ? "border-violet-500"
                                         : "border-transparent",
                                       focus ? "border" : "border-2",
                                       "pointer-events-none absolute -inset-px rounded-md"
@@ -293,7 +300,7 @@ function ProductDetail() {
                   <Link to="/cart">
                     <button
                       type="submit"
-                      className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      className="mt-10 flex items-center justify-center rounded-full border border-transparent bg-violet-600 px-8 py-3 text-base font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2"
                     >
                       Add to bag
                     </button>
@@ -301,11 +308,10 @@ function ProductDetail() {
                 </form>
               </div>
 
-              <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
+              <div className="py-5 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
                 {/* Description and details */}
                 <div>
                   <h3 className="sr-only">Description</h3>
-
                   <div className="space-y-6">
                     <p className="text-base text-gray-900">
                       {product.description}
@@ -332,7 +338,7 @@ function ProductDetail() {
                   </div>
                 </div>
 
-                <div className="mt-10">
+                <div className="mt-8">
                   <h2 className="text-sm font-medium text-gray-900">Details</h2>
 
                   <div className="mt-4 space-y-6">
@@ -340,6 +346,33 @@ function ProductDetail() {
                   </div>
                 </div>
               </div>
+            </div>
+          </section>
+
+          {/* Rating and Reviews */}
+          <section className="pt-10">
+            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-3 pb-10">
+              <div>
+                <h1 className="font-semibold text-gray-900 m-2 pb-4 text-lg ml-4">
+                  Customer Reviews
+                </h1>
+                <div className=" p-5">
+                  {[1, 1, 1].map(() => (
+                    <ProductReview />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="pt-10">
+            <h1 className="text-gray-900 font-semibold text-lg p-5 mb-3">
+              Similar Products
+            </h1>
+            <div className="">
+              {kurta.map((item) => (
+                <HomeCarousel product={item} />
+              ))}
             </div>
           </section>
         </div>

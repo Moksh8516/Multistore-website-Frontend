@@ -2,10 +2,12 @@
 import {
   Home,
   Login,
-  ProductOverview,
+  ProductList,
   Signup,
+  Layout,
   Cart,
   Checkoutform,
+  ProductOverview,
 } from "./components/index";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -13,27 +15,37 @@ const router = createBrowserRouter([
   // Classical Method
   {
     path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/signup",
-    element: <Signup />,
-  },
-  {
-    path: "/product",
-    element: <ProductOverview />,
-  },
-  {
-    path: "/cart",
-    element: <Cart />,
-  },
-  {
-    path: "/checkout-form",
-    element: <Checkoutform />,
+    element: <Layout />,
+    children: [
+      {
+        path: "",
+        element: <Home />,
+      },
+      {
+        path: "/view",
+        element: <ProductOverview />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+      },
+      {
+        path: "/product",
+        element: <ProductList />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
+      },
+      {
+        path: "/checkout-form",
+        element: <Checkoutform />,
+      },
+    ],
   },
 ]);
 function App() {

@@ -19,6 +19,7 @@ const BannerImg = {
 const FooterLinks = [
   {
     title: "Home",
+
     link: "/#",
   },
   {
@@ -37,7 +38,7 @@ const FooterLinks = [
 
 function Footer() {
   return (
-    <div style={BannerImg} className="text-white">
+    <div style={BannerImg} className="text-white bg-black">
       <div className="container">
         <div data-aos="zoom-in" className="grid md:grid-cols-3 pb-44 pt-5">
           {/* company details */}
