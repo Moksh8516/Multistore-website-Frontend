@@ -369,7 +369,7 @@ function ProductList({ ...classes }) {
                       {products.map((product) => (
                         <Link
                           key={product.id}
-                          to="/product"
+                          to={`/product/:${product.id}`}
                           className="group shadow-lg shadow-gray-300 rounded-lg  pb-2"
                         >
                           <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-100 xl:aspect-h-8 xl:aspect-w-7 2xl:aspect-h-12 2xl:aspect-w-10 ">

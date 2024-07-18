@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Cart.css";
 import { IconButton } from "@mui/material";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
@@ -40,6 +40,11 @@ const products = [
 
 function Cart() {
   const [open, setOpen] = useState(true);
+  const navigate = useNavigate();
+
+  const handleBtn = () => {
+    navigate("/checkout-form?step=2");
+  };
   return (
     <div className="mx-auto max-w-7xl bg-gray-50 px-4 sm:px-6 lg:px-8 pt-5">
       <h2 className=" font-bold tracking-light text-gray-900 text-xl sm:text-2xl lg:text-4xl xl:text-6xl text-center">
@@ -50,7 +55,7 @@ function Cart() {
           <ul role="list" className="-my-6 divide-y divide-gray-200">
             {products.map((product) => (
               <li key={product.id} className="flex py-6">
-                <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                <div className="max-h-24 max-w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                   <img
                     src={product.imageSrc}
                     alt={product.imageAlt}
@@ -58,23 +63,25 @@ function Cart() {
                   />
                 </div>
 
-                <div className="ml-4 flex flex-1 flex-col gap-1">
+                <div className="ml-1 md:ml-4 flex flex-1 flex-col gap-1">
                   <div>
                     <div className="flex justify-between text-base font-medium text-gray-900">
                       <h3>
                         <a href={product.href}>{product.name}</a>
                       </h3>
-                      <p className="ml-4">{product.price}</p>
+                      <p className="ml-1 md:ml-4">{product.price}</p>
                     </div>
                     <p className="text-gray-600 mt-1 text-base">
                       {product.color}
                     </p>
                     <div className=" flex space-x-5 items-center text-gray-900 mt-4">
-                      <p className=" font-semibold">{product.price}</p>
-                      <p className="opacity-60 line-through">
+                      <p className=" font-semibold sm:text-sm">
+                        {product.price}
+                      </p>
+                      <p className="opacity-60 line-through sm:text-sm">
                         {product.amount}
                       </p>
-                      <p className="text-green-600 font-semibold">
+                      <p className="text-green-600 font-semibold sm:text-sm">
                         {product.discount}
                       </p>
                     </div>

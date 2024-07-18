@@ -26,7 +26,7 @@ function Checkout() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 text-lg sm:text-sm  lg:px-8 ">
       <div className=" m-2 mt-4">
         <Box sx={{ width: "100%" }}>
           <Stepper activeStep={querySteps}>
@@ -56,10 +56,6 @@ function Checkout() {
                   sx={{ mr: 1 }}
                 >
                   Back
-                </Button>
-                <Box sx={{ flex: "1 1 auto" }} />
-                <Button onClick={handleNext}>
-                  {activeStep === steps.length - 1 ? "Finish" : "Next"}
                 </Button>
               </Box>
               <div>{querySteps == 2 ? <Cart /> : <CheckoutForm />}</div>

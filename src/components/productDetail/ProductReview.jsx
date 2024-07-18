@@ -23,7 +23,8 @@ function ProductReview() {
   const [value, setValue] = useState(2);
   const [hover, setHover] = useState(-1);
 
-  const date = Date.now();
+  const date = new Date();
+  const dateToString = date.toLocaleString();
 
   return (
     <div>
@@ -38,13 +39,15 @@ function ProductReview() {
           >
             MK
           </Avatar>
-          <h3 className="text-lg text-gray-900 px-2 ">Moksh</h3>
+          <h3 className="text-lg text-gray-900 px-2 " name="ReviewName">
+            Moksh
+          </h3>
         </Box>
 
         <div className="space-y-2">
           <div className="space-y-2 p-2">
             <p className="text-base text-gray-500 ">
-              Reviewed in India in on {date}
+              Reviewed in India in on {dateToString}
             </p>
             <Box
               sx={{

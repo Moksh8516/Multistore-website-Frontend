@@ -14,6 +14,7 @@ const kurta = [
     id: 2,
   },
 ];
+
 const product = {
   name: "Basic Tee 6-Pack",
   price: "$192",
@@ -71,9 +72,10 @@ const reviews = { href: "#", average: 4, totalCount: 117 };
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+
 let value = 4;
+
 function ProductDetail() {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
   return (
     <div>
@@ -371,7 +373,7 @@ function ProductDetail() {
             </h1>
             <div className="">
               {kurta.map((item) => (
-                <HomeCarousel product={item} />
+                <HomeCarousel product={item} key={{ item }} />
               ))}
             </div>
           </section>
