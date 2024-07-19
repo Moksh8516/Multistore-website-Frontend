@@ -24,10 +24,10 @@ function Checkout() {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
+  let width = "620px";
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 text-lg sm:text-sm  lg:px-8 ">
-      <div className=" m-2 mt-4">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 text-lg lg:px-8">
+      <div className={`m-2 mt-4`}>
         <Box sx={{ width: "100%" }}>
           <Stepper activeStep={querySteps}>
             {steps.map((label, index) => {

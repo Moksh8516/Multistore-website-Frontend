@@ -92,11 +92,7 @@ function Home() {
       <main>
         <div className="mx-auto max-w-8xl absloute">
           {/* Your content */}
-          <Slider
-            {...bannerCarousel}
-            className="m-0 p-0 "
-            key={bannerCarousel.length}
-          >
+          <Slider {...bannerCarousel} className="m-0 p-0 ">
             {items}
           </Slider>
         </div>
