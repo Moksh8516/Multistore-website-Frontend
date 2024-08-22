@@ -23,7 +23,7 @@ function CheckoutForm() {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-x-8 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-x-8 lg:grid-cols-5">
         <div className="lg:col-span-3">
           <form className="bg-gray-100 px-4 py-4" onSubmit={handleSubmit}>
             <div className="space-y-12">

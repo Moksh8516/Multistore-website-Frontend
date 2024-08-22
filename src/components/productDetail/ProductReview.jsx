@@ -19,7 +19,7 @@ function getLabelText(value) {
   return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
 }
 
-function ProductReview() {
+function ProductReview({ review }) {
   const [value, setValue] = useState(2);
   const [hover, setHover] = useState(-1);
 

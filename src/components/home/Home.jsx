@@ -12,18 +12,21 @@ const items = [
     <img
       className="w-full h-full bg-no-repeat"
       src="https://images-eu.ssl-images-amazon.com/images/G/31/img21/shoes/2024/GW/June/unrec/all/FDFO/3000_PC._CB554223838_.jpg"
+      alt="1"
     />
   </div>,
   <div className="item" data-value="2">
     <img
       className="w-full h-full bg-no-repeat"
       src="https://images-eu.ssl-images-amazon.com/images/G/31/img23/Beauty/GW/Makeup-PCfdfo._CB554430294_.jpg"
+      alt="2"
     />
   </div>,
   <div className="item" data-value="3">
     <img
       className="w-full h-full bg-no-repeat"
       src="https://images-eu.ssl-images-amazon.com/images/G/31/2024/Gateway/June/Unrec/3000x1200_1._CB554217106_.jpg"
+      alt="3"
     />
   </div>,
   <div className="item" data-value="4">
@@ -92,8 +95,10 @@ function Home() {
       <main>
         <div className="mx-auto max-w-8xl absloute">
           {/* Your content */}
-          <Slider {...bannerCarousel} className="m-0 p-0 ">
-            {items}
+          <Slider {...bannerCarousel} className="m-0 p-0">
+            {items.map((item, index) => (
+              <div key={index}>{item}</div>
+            ))}
           </Slider>
         </div>
       </main>

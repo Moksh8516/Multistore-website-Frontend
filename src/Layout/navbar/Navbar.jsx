@@ -17,6 +17,9 @@ import {
   ShoppingCartIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { selectedCartItem } from "../../components/cart/cartSlice";
+import { useSelector } from "react-redux";
+// import { selectLoggedInUser } from "../../components/auth/authSlice";
 
 const user = {
   name: "Tom Cook",
@@ -42,7 +45,10 @@ const userNavigation = [
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+
 function Navbar() {
+  const cartItems = useSelector(selectedCartItem);
+  // const user = useSelector(selectLoggedInUser);
   return (
     <div>
       <div className="min-h-full">
@@ -97,7 +103,7 @@ function Navbar() {
                         </button>
                       </Link>
                       <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 mb-7 -ml-2 text-xs  font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                        2
+                        {cartItems.length}
                       </span>
                       {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">
@@ -212,7 +218,7 @@ function Navbar() {
                       </button>
                     </Link>
                     <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1  mb-8 -ml-2 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                      2
+                      {cartItems.length}
                     </span>
                   </div>
                   <div className="mt-3 space-y-1 px-2">

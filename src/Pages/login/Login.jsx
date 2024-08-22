@@ -1,10 +1,26 @@
 import React from "react";
 import login_img from "../../assets/login.jpg";
 import google_img from "../../assets/google.png";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  checkUserAsync,
+  selectLoggedInUser,
+} from "../../components/auth/authSlice";
 function Login() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const dispatch = useDispatch();
+  const user = useSelector(selectLoggedInUser);
+  console.log(user);
   return (
     <>
+      {user && <Navigate to={"/"} replace={true}></Navigate>}
       <section className="bg-gray-50 min-h-screen flex items-center justify-center">
         <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 ">
           {/* text Part  */}
@@ -15,20 +31,49 @@ function Login() {
             <p className="text-sm mt-4 xl:text-base 2xl:text-lg ">
               If you already a member, easily Log in
             </p>
-            <form action="" className="flex flex-col">
+            <form
+              className="flex flex-col"
+              action="#"
+              method="POST"
+              onSubmit={handleSubmit(
+                (data) => (
+                  dispatch(
+                    checkUserAsync({
+                      email: data.email,
+                      password: data.password,
+                    })
+                  ),
+                  console.log(data)
+                )
+              )}
+            >
               <input
-                type="email"
-                placeholder="Email"
+                type="text"
+                placeholder="Email/Mobile Number"
                 className="p-2 rounded-xl l-2 mt-8 border"
-                name="email"
+                {...register("email", {
+                  required: "Email/Mobile Number is required",
+                })}
               />
+              {errors.email && (
+                <span className="text-sm text-red-500 p-1">
+                  {errors.email?.message}
+                </span>
+              )}
               <div className="relative">
                 <input
                   type="password"
                   placeholder="Password"
                   className="p-2 rounded-xl l-2 mt-8 w-full "
-                  name="password"
+                  {...register("password", {
+                    required: "Password field is required",
+                  })}
                 />
+                {errors.password && (
+                  <span className="text-sm text-red-500 p-1">
+                    {errors.password?.message}
+                  </span>
+                )}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -48,6 +93,9 @@ function Login() {
                     d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                   />
                 </svg>
+                {/* {errorMsg && (
+                  <span className="text-red-500 text-sm">{errorMsg}</span>
+                )} */}
               </div>
               <button className="mt-5 font-bold text-base xl:text-xl bg-[#6366f1] text-white p-2 rounded-full hover:scale-105 duration-200">
                 Log in

@@ -155,7 +155,7 @@ function HomeCarousel({ sectionName }) {
 
   const items = product
     .slice(0, 10)
-    .map((item) => <CategoryCrousel product={item} />);
+    .map((item) => <CategoryCrousel product={item} key={item} />);
 
   return (
     <>

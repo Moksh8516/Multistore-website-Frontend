@@ -1,10 +1,14 @@
-import React from "react";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "./Cart.css";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { IconButton } from "@mui/material";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  deleteCartItemAsync,
+  selectedCartItem,
+  updateCartAsync,
+} from "./cartSlice";
 
 const products = [
   {
@@ -40,10 +44,29 @@ const products = [
 
 function Cart() {
   const [open, setOpen] = useState(true);
-  const navigate = useNavigate();
+  const [quantity, setQuantity] = useState(1);
 
-  const handleBtn = () => {
-    navigate("/checkout-form?step=2");
+  const increment = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const decrement = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+  const dispatch = useDispatch();
+  const items = useSelector(selectedCartItem);
+  const totalAmount = items.reduce(
+    (amount, item) => amount + item.price * item.quantity,
+    0
+  );
+  const totalItems = items.reduce((total, item) => item.quantity + total, 0);
+  const handleQuantity = (e, product) => {
+    dispatch(updateCartAsync({ ...product, quantity: e.target.value }));
+  };
+  const handleRemoveCartItem = (e, id) => {
+    dispatch(deleteCartItemAsync(id));
   };
   return (
     <div className="mx-auto max-w-7xl bg-gray-50 px-4 sm:px-6 lg:px-8 pt-5">
@@ -53,11 +76,11 @@ function Cart() {
       <div className="border-t border-gray-200 px-4 py-6 sm:px-6 mt-8">
         <div className="flow-root">
           <ul role="list" className="-my-6 divide-y divide-gray-200">
-            {products.map((product) => (
+            {items.map((product) => (
               <li key={product.id} className="flex py-6">
                 <div className="max-h-24 max-w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                   <img
-                    src={product.imageSrc}
+                    src={product.thumbnail}
                     alt={product.imageAlt}
                     className="h-full w-full object-cover object-center"
                   />
@@ -67,34 +90,46 @@ function Cart() {
                   <div>
                     <div className="flex justify-between text-base font-medium text-gray-900">
                       <h3>
-                        <a href={product.href}>{product.name}</a>
+                        <a href={product.href}>{product.title}</a>
                       </h3>
                       <p className="ml-1 md:ml-4">{product.price}</p>
                     </div>
                     <p className="text-gray-600 mt-1 text-base">
-                      {product.color}
+                      {product.brand}
                     </p>
                     <div className=" flex space-x-5 items-center text-gray-900 mt-4">
-                      <p className=" font-semibold sm:text-sm">
-                        {product.price}
+                      <p className=" font-semibold sm:text-sm line-through text-gray-600">
+                        {Math.round(
+                          product.price * (1 + product.discountPercentage / 100)
+                        )}
                       </p>
                       <p className="opacity-60 line-through sm:text-sm">
                         {product.amount}
                       </p>
                       <p className="text-green-600 font-semibold sm:text-sm">
-                        {product.discount}
+                        -{product.discountPercentage}%
                       </p>
                     </div>
                   </div>
 
                   <div className="flex flex-1 justify-between text-sm items-center">
                     <div className="text-gray-500 flex items-center space-x-2">
-                      <IconButton>
+                      <IconButton onClick={decrement}>
                         <RemoveCircleOutlineIcon sx={{ color: "#9333ea" }} />
                       </IconButton>
-                      <span className="border text-gray-700 py-1 px-3">1</span>
-
-                      <IconButton>
+                      <select
+                        className="border text-gray-700 py-1 px-3 select-none"
+                        onChange={(e) => {
+                          handleQuantity(e, product);
+                        }}
+                      >
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select>
+                      <IconButton onClick={increment}>
                         <AddCircleOutlineIcon sx={{ color: "#9333ea" }} />
                       </IconButton>
                     </div>
@@ -103,6 +138,7 @@ function Cart() {
                       <button
                         type="button"
                         className="font-medium text-indigo-600 hover:text-indigo-500"
+                        onClick={(e) => handleRemoveCartItem(e, product.id)}
                       >
                         Remove
                       </button>
@@ -118,7 +154,11 @@ function Cart() {
       <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
         <div className="flex justify-between text-base font-medium text-gray-900">
           <p>Subtotal</p>
-          <p>$262.00</p>
+          <p>{totalAmount}</p>
+        </div>
+        <div className="flex justify-between text-base font-medium text-gray-900">
+          <p>Total items in Cart</p>
+          <p>{totalItems}</p>
         </div>
         <p className="mt-0.5 text-sm text-gray-500">
           Shipping and taxes calculated at checkout.
