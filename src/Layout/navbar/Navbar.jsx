@@ -1,5 +1,4 @@
 import React from "react";
-import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import {
   Disclosure,
@@ -18,8 +17,12 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { selectedCartItem } from "../../components/cart/cartSlice";
-import { useSelector } from "react-redux";
-// import { selectLoggedInUser } from "../../components/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+// import { logout } from "../../components/auth/auth";
+import {
+  selectLoggedInUser,
+  signoutUserAsync,
+} from "../../components/auth/authSlice";
 
 const user = {
   name: "Tom Cook",
@@ -37,9 +40,9 @@ const navigation = [
 ];
 
 const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
+  { name: "Your Profile", href: "/Profile" },
+  { name: "Settings", href: "/Setting" },
+  { name: "SignOut", href: "/logout" },
 ];
 
 function classNames(...classes) {
@@ -47,8 +50,28 @@ function classNames(...classes) {
 }
 
 function Navbar() {
+  const dispatch = useDispatch();
   const cartItems = useSelector(selectedCartItem);
-  // const user = useSelector(selectLoggedInUser);
+  const userId = useSelector(selectLoggedInUser);
+  // const handlebutton = (userId) => {
+  //   if (userId) {
+  //     return {
+  //       name: "Sign out",
+  //       href: "/logout",
+  //     };
+  //   } else {
+  //     return {
+  //       name: "Login",
+  //       href: "/login",
+  //     };
+  //   }
+  // };
+  // {
+  //   !userId && console.log("userId", JSON.stringify(userId));
+  // }
+  // const handleSignOut = () => {
+  //   dispatch(signoutUserAsync());
+  // };
   return (
     <div>
       <div className="min-h-full">
@@ -142,6 +165,12 @@ function Navbar() {
                                 )}
                               </MenuItem>
                             ))}
+                            {/* <button
+                              onClick={handleSignOut}
+                              className="block px-4 py-2 text-sm text-gray-700 bg-transparent hover:bg-gray-100 w-full text-left"
+                            >
+                              SignOut
+                            </button> */}
                           </MenuItems>
                         </Transition>
                       </Menu>
@@ -225,13 +254,18 @@ function Navbar() {
                     {userNavigation.map((item) => (
                       <DisclosureButton
                         key={item.name}
-                        as="a"
                         to={item.href}
                         className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                       >
-                        {item.name}
+                        <Link to={item.href}>{item.name}</Link>
                       </DisclosureButton>
                     ))}
+                    {/* <button
+                      onClick={handleSignOut}
+                      className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white bg-transparent"
+                    >
+                      SignOut
+                    </button> */}
                   </div>
                 </div>
               </DisclosurePanel>

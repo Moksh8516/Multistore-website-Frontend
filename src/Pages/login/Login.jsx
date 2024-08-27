@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import login_img from "../../assets/login.jpg";
 import google_img from "../../assets/google.png";
 import { Link, Navigate } from "react-router-dom";
@@ -6,7 +6,9 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import {
   checkUserAsync,
+  reLoginUserAsync,
   selectLoggedInUser,
+  selectUserMessage,
 } from "../../components/auth/authSlice";
 function Login() {
   const {
@@ -17,7 +19,14 @@ function Login() {
   } = useForm();
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser);
-  console.log(user);
+  const userMsg = useSelector(selectUserMessage);
+  const reqtoken = () => {
+    if (!user.refreshToken) {
+      <Navigate to={"/signup"} replace={true}></Navigate>;
+    }
+    dispatch(reLoginUserAsync());
+  };
+
   return (
     <>
       {user && <Navigate to={"/"} replace={true}></Navigate>}
@@ -36,15 +45,7 @@ function Login() {
               action="#"
               method="POST"
               onSubmit={handleSubmit(
-                (data) => (
-                  dispatch(
-                    checkUserAsync({
-                      email: data.email,
-                      password: data.password,
-                    })
-                  ),
-                  console.log(data)
-                )
+                (data) => (dispatch(checkUserAsync(data)), console.log(data))
               )}
             >
               <input
@@ -55,6 +56,14 @@ function Login() {
                   required: "Email/Mobile Number is required",
                 })}
               />
+              {/* {email &&
+                (email != user.data.user.email ? (
+                  <span className="text-sm text-red-500 p-1">
+                    Please provide valid email/MobileNo
+                  </span>
+                ) : (
+                  ""
+                ))} */}
               {errors.email && (
                 <span className="text-sm text-red-500 p-1">
                   {errors.email?.message}
@@ -107,7 +116,10 @@ function Login() {
               <p className="text-center">OR</p>
               <hr className="border-gray-400 " />
             </div>
-            <button className="bg-white border py-2 w-full rounded-xl text-sm xl:text-base  2xl:text-xl mt-5 relative flex justify-center items-center hover:scale-105 duration-200">
+            <button
+              className="bg-white border py-2 w-full rounded-xl text-sm xl:text-base  2xl:text-xl mt-5 relative flex justify-center items-center hover:scale-105 duration-200"
+              onClick={reqtoken}
+            >
               <img
                 src={google_img}
                 alt="google-icon"
@@ -116,7 +128,7 @@ function Login() {
               Login with Google
             </button>
             <p className="mt-5 text-xs border-b text-[#6366f1] py-4 font-italic">
-              Forget Your Password?
+              <Link to={"/forget-Password"}>Forget Your Password?</Link>
             </p>
             <div className="text-xs mt-3 flex justify-between items-center">
               <p>If you don't have an account..</p>

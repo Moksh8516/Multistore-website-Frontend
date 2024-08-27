@@ -24,7 +24,7 @@ function Checkout() {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-  let width = "620px";
+  let width = "400px";
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 text-lg lg:px-8">
       <div className={`m-2 mt-4`}>

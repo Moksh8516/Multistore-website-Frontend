@@ -90,13 +90,13 @@ function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState(sizes[2]);
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser);
-  console.log(user.data.user._id);
 
   const handleCart = (e) => {
     dispatch(
       addToCartAsync({ ...product, quantity: 1, user: user.data.user._id })
     );
   };
+
   useEffect(() => {
     dispatch(fetchProductByIdAsync(params.productId));
   }, [dispatch, params.productId]);

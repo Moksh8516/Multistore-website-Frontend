@@ -8,11 +8,11 @@ import { fetchItemByUserIdAsync } from "../components/cart/cartSlice";
 function Layout() {
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser);
-  useEffect(() => {
-    if (user) {
-      dispatch(fetchItemByUserIdAsync(user.data.user._id));
-    }
-  }, [dispatch, user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     dispatch(fetchItemByUserIdAsync(user.user._id));
+  //   }
+  // }, [dispatch, user]);
   return (
     <div>
       <Navbar />

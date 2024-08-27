@@ -8,7 +8,7 @@ import Cart from "./cart/Cart.jsx"
 import Checkoutform from "../Pages/checkout/Checkout.jsx"
 import Layout from "../Layout/Layout.jsx";
 import Footer from '../Layout/footer/Footer.jsx'
-
+import OrderStatus from "../Pages/order/OrderStatus.jsx";
 export {
   Navbar,
   Home,
@@ -18,6 +18,7 @@ export {
   ProductOverview,
   Cart,
   Checkoutform,
+  OrderStatus,
   Layout,
   Footer
 }

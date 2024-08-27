@@ -1,16 +1,24 @@
+import axios from "axios";
+
 export async function fetchAllProducts() {
-  return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/products");
-    const data = await response.json();
-    resolve({ data });
-  });
+  try {
+    const response = await axios("api/product");
+    console.log(response)
+    const data = response.data;
+    return { data }
+  } catch (error) {
+    console.error("fectAllProducts", error)
+  }
 }
+
 export async function fetchProductById(id) {
-  return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/products/" + id);
-    const data = await response.json();
-    resolve({ data });
-  });
+  try {
+    const response = await axios.get(`api/product/${id}`)
+    console.log(response)
+    return { response }
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 export async function fetchCategory() {
@@ -44,10 +52,14 @@ export async function fetchProductsByFilter(values, sort, page) {
     queryString += `${key}=${page[key]}&`
   }
 
-  return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/products?" + queryString);
-    const data = await response.json();
-    resolve({ data });
-  });
+
+  try {
+    const response = await axios.get(`api/product${queryString}`);
+    const data = response.data;
+    return (data)
+  } catch (error) {
+    console.error("fetchProductsByFilter", error)
+  }
+
 }
 

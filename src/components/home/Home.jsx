@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import HomeCarousel from "./HomeCarousel";
 import HomeContainer from "./HomeContainer";
 import Slider from "react-slick";
@@ -104,7 +104,6 @@ function Home() {
       </main>
       <div
         className="mx-auto top-[-5rem] 
-
       md:top-[-11rem] lg:top-[-16rem] xl:top-[-18rem] relative"
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 lg:p-6 z-50  items-center justify-center">

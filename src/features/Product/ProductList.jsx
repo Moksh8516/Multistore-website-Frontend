@@ -27,7 +27,6 @@ import {
 } from "@heroicons/react/20/solid";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchAllProductsAsync,
   fetchBrandAsync,
   fetchCategoryAsync,
   fetchProductsByFilterAsync,
@@ -42,13 +41,9 @@ const sortOptions = [
   { name: "Price: High to Low", sort: "price", order: "desc", current: false },
 ];
 
-// import { products } from "./product";
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-
-// import { products } from "./product";
 
 function ProductList() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
@@ -57,6 +52,7 @@ function ProductList() {
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const products = useSelector(selectAllProducts);
+
   const brands = useSelector(selectBrands);
   const categories = useSelector(selectCategories);
   const filters = [
@@ -134,6 +130,7 @@ function ProductList() {
     dispatch(fetchBrandAsync());
     dispatch(fetchCategoryAsync());
   }, []);
+
   return (
     <div className="bg-white ">
       <div>
@@ -412,7 +409,7 @@ function ProductContent({ products, filters }) {
           {products.map((product) => (
             <Link
               key={product.id}
-              to={`/product/${product.id}`}
+              to={`/product/${product._id}`}
               className="group shadow-lg shadow-gray-300 rounded-lg  pb-2"
             >
               <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-100 xl:aspect-h-8 xl:aspect-w-7 2xl:aspect-h-12 2xl:aspect-w-10 ">
