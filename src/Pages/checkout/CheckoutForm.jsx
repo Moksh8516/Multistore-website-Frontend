@@ -1,36 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AddressCart from "../addressSection/AddressCart";
 import HomeCarousel from "../../components/home/HomeCarousel";
-import { Link } from "react-router-dom";
-import { IconButton } from "@mui/material";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteCartItemAsync,
+  selectCartLoader,
   selectedCartItem,
-  updateCartAsync,
 } from "../../components/cart/cartSlice";
+import { selectLoggedInUser } from "../../components/auth/authSlice";
+import { createOrder } from "../../features/Order/orderApi";
 
-function CheckoutForm() {
+function CheckoutForm(selectAddress) {
   const dispatch = useDispatch();
   const items = useSelector(selectedCartItem);
+  const user = useSelector(selectLoggedInUser);
+  const loader = useSelector(selectCartLoader);
+
   const totalAmount = items.reduce(
     (amount, item) => amount + item.price * item.quantity,
     0
   );
-
+  const totalDiscount = items.reduce(
+    (discount, item) => discount + item.discount,
+    0
+  );
   const totalItems = items.reduce((total, item) => item.quantity + total, 0);
-  const handleQuantity = (e, product) => {
-    dispatch(updateCartAsync({ ...product, quantity: e.target.value }));
-  };
+  const AvgDiscount = parseInt(totalDiscount / totalItems);
 
-  const handleRemoveCartItem = (e, id) => {
+  const handleRemoveCartItem = (id) => {
+    console.log(id);
     dispatch(deleteCartItemAsync(id));
   };
-
+  console.log(selectAddress);
+  const handleOrder = () => {
+    const order = {
+      items,
+      totalAmount,
+      totalDiscount,
+      totalItems,
+      quantity,
+      user,
+      address,
+    };
+    console.log(order);
+    dispatch(createOrder(order));
+  };
   return (
     <>
+      {!items.length > 0 && loader && (
+        <Navigate to={"/Product"} replace={true} />
+      )}
       <div className="grid grid-cols-1 gap-x-8 lg:grid-cols-5">
         <div className="lg:col-span-3">
           <h2 className=" font-bold tracking-light text-gray-900 text-xl sm:text-2xl lg:text-4xl xl:text-6xl text-center">
@@ -40,7 +60,7 @@ function CheckoutForm() {
             <div className="flow-root">
               <ul role="list" className="-my-6 divide-y divide-gray-200">
                 {items.map((product) => (
-                  <li key={product.id} className="flex py-6">
+                  <li key={product._id} className="flex py-6">
                     <div className="max-h-24 max-w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                       <img
                         src={product.thumbnail}
@@ -63,48 +83,24 @@ function CheckoutForm() {
                         <div className=" flex space-x-5 items-center text-gray-900 mt-4">
                           <p className=" font-semibold sm:text-sm line-through text-gray-600">
                             {Math.round(
-                              product.price *
-                                (1 + product.discountPercentage / 100)
+                              product.price * (1 + product.discount / 100)
                             )}
                           </p>
                           <p className="opacity-60 line-through sm:text-sm">
                             {product.amount}
                           </p>
                           <p className="text-green-600 font-semibold sm:text-sm">
-                            -{product.discountPercentage}%
+                            -{product.discount}%
                           </p>
                         </div>
                       </div>
 
-                      <div className="flex flex-1 justify-between text-sm items-center">
-                        <div className="text-gray-500 flex items-center space-x-2">
-                          <IconButton>
-                            <RemoveCircleOutlineIcon
-                              sx={{ color: "#9333ea" }}
-                            />
-                          </IconButton>
-                          <select
-                            className="border text-gray-700 py-1 px-3 select-none"
-                            onChange={(e) => {
-                              handleQuantity(e, product);
-                            }}
-                          >
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                          </select>
-                          <IconButton>
-                            <AddCircleOutlineIcon sx={{ color: "#9333ea" }} />
-                          </IconButton>
-                        </div>
-
+                      <div className="flex flex-1 justify-end text-sm items-center">
                         <div className="flex">
                           <button
                             type="button"
-                            className="font-medium text-indigo-600 hover:text-indigo-500"
-                            onClick={(e) => handleRemoveCartItem(e, product.id)}
+                            className="font-medium text-sky-400 hover:text-sky-500"
+                            onClick={() => handleRemoveCartItem(product._id)}
                           >
                             Remove
                           </button>
@@ -123,6 +119,14 @@ function CheckoutForm() {
               <p>{totalAmount}</p>
             </div>
             <div className="flex justify-between text-base font-medium text-gray-900">
+              <p>Discount</p>
+              <p>{AvgDiscount}</p>
+            </div>
+            <div className="flex justify-between text-base font-medium text-gray-900">
+              <p>Total Price</p>
+              <p>{parseInt(totalAmount)}</p>
+            </div>
+            <div className="flex justify-between text-base font-medium text-gray-900">
               <p>Total items in Cart</p>
               <p>{totalItems}</p>
             </div>
@@ -131,12 +135,18 @@ function CheckoutForm() {
             </p>
 
             <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
+              <Link
+                to={"/address"}
+                className="font-medium text-sky-400 hover:text-sky-500 px-2"
+              >
+                Add New Address
+              </Link>
               <p>
                 or{" "}
                 <Link to="/">
                   <button
                     type="button"
-                    className="font-medium text-violet-600 hover:text-violet-500"
+                    className="font-medium text-sky-400 hover:text-sky-500"
                     onClick={() => setOpen(false)}
                   >
                     Continue Shopping
@@ -151,8 +161,9 @@ function CheckoutForm() {
       </div>
       <div className="mt-6">
         <Link
-          to="/checkout-form"
-          className="flex items-center justify-center rounded-lg border border-transparent  px-6 py-3 text-base font-medium text-white shadow-sm bg-violet-600 hover:bg-violet-700"
+          to=""
+          onClick={handleOrder}
+          className="flex items-center justify-center rounded-lg border border-transparent  px-6 py-3 text-base font-medium text-white shadow-sm bg-sky-400 hover:bg-sky-500"
         >
           Place order
         </Link>

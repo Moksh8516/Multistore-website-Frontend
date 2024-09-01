@@ -2,8 +2,7 @@ import axios from "axios";
 
 export async function fetchAllProducts() {
   try {
-    const response = await axios("api/product");
-    console.log(response)
+    const response = await axios.get("api/product");
     const data = response.data;
     return { data }
   } catch (error) {
@@ -13,32 +12,35 @@ export async function fetchAllProducts() {
 
 export async function fetchProductById(id) {
   try {
-    const response = await axios.get(`api/product/${id}`)
-    console.log(response)
-    return { response }
+    const response = await axios.get(`http://localhost:4040/api/product/${id}`)
+    const data = response.data;
+    return (data)
   } catch (error) {
-    console.error(error)
+    console.log(error)
   }
 }
 
 export async function fetchCategory() {
-  return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/category ");
-    const data = await response.json();
-    resolve({ data });
-  });
+  try {
+    const response = await axios.get("/api/categories")
+    const data = response.data
+    return (data)
+  } catch (error) {
+    console.error("Error in Fetch Brand Section", error)
+  }
 }
 
 export async function fetchBrand() {
-  return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/brands");
-    const data = await response.json();
-    resolve({ data });
-  });
+  try {
+    const response = await axios.get("api/brands")
+    const data = response.data
+    return (data)
+  } catch (error) {
+    console.error("Error in Fetch Brand Section", error)
+  }
 }
 
 export async function fetchProductsByFilter(values, sort, page) {
-
   let queryString = "";
   for (let key in values) {
     queryString += `${key}=${values[key]}&`
@@ -52,13 +54,12 @@ export async function fetchProductsByFilter(values, sort, page) {
     queryString += `${key}=${page[key]}&`
   }
 
-
   try {
-    const response = await axios.get(`api/product${queryString}`);
+    const response = await axios.get(`api/product?${queryString}`);
     const data = response.data;
     return (data)
   } catch (error) {
-    console.error("fetchProductsByFilter", error)
+    console.error("Error in fetchProductsByFilter Section", error)
   }
 
 }

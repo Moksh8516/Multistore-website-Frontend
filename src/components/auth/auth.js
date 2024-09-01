@@ -1,4 +1,6 @@
+import { ErrorRounded } from "@mui/icons-material";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 // function extractErrorMessageFromHtml(html) {
 //   const preTagRegex = /<pre>(.*?)<\/pre>/;
@@ -11,28 +13,31 @@ import axios from "axios";
 //   }
 // }
 
-export function createUser(userData) {
-  return new Promise(async (resolve) => {
-    const response = await fetch("api/v1/user/register", {
-      method: "POST",
-      body: JSON.stringify(userData),
-      headers: { 'Content-Type': 'application/json' },
-    })
-    const data = await response.json()
-    resolve({ data })
-  })
+export async function createUser(userData) {
+  try {
+    const response = await axios.post("api/v1/user/register", userData)
+    const data = response.data
+    return data
+  } catch (error) {
+    if (error.response) {
+      toast.error(error.response.data?.message)
+    }
+    console.error("Error in register:", error);
+    throw error;
+  }
 }
 
 export async function checkUser(userData) {
   try {
     const response = await axios.post("/api/v1/user/login", userData)
-    const data = response.data;
-    return { data }
+    const data = response.data
+    return data
   } catch (error) {
-    if (error.response.status === 401) {
-      console.log({ error: "Invalid Password" })
-      return (error); // This will reject the promise with the error
+    if (error.response) {
+      toast.error(error.response.data?.message)
     }
+    console.error("Error in login:", error);
+    throw error;
   }
 }
 
@@ -40,10 +45,12 @@ export async function logout() {
   try {
     const response = await axios.post("/api/v1/user/logout")
     const data = response.data;
-    console.log(data)
     return { data }
   } catch (error) {
-    console.error("Error in logout:", error.toJSON());
+    if (error.response) {
+      toast.error(error.response.data?.message)
+    }
+    console.error("Error in logout:", error);
     throw error; // This will reject the promise with the error
   }
 }
@@ -54,7 +61,11 @@ export async function forgetPassword(email) {
     const data = response.data;
     return (data)
   } catch (error) {
-    console.log(error)
+    if (error.response) {
+      toast.error(error.response.data?.message)
+    }
+    console.error("Error in forgot Password:", error);
+    throw error; // This will reject the promise with the error
   }
 }
 
@@ -64,8 +75,13 @@ export async function ResetPassword(newPassword) {
     const data = response.data
     return (data)
   } catch (error) {
+    if (error.response) {
+      toast.error(error.response.data?.message)
+    }
+    console.error("Error in resetPassword:", error);
+    throw error; // This will reject the promise with the error
   }
-  console.log(error)
+
 }
 
 export async function updateProfile(data) {
@@ -74,7 +90,8 @@ export async function updateProfile(data) {
     const data = response.data
     return (data)
   } catch (error) {
-    console.error(error)
+    console.error("Error in updateProfile:", error);
+    throw error; // This will reject the promise with the error
   }
 }
 export async function updatePassword(data) {
@@ -82,7 +99,8 @@ export async function updatePassword(data) {
     const response = await axios.patch("api/v1/user/update-password", data)
     return (response.data)
   } catch (error) {
-    console.error(error)
+    console.error("Error in update Password:", error);
+    throw error; // This will reject the promise with the error
   }
 }
 
@@ -92,13 +110,15 @@ export async function updateProfileImage(data) {
     const data = response.data
     return (data)
   } catch (error) {
-    console.error(error)
+    console.error("Error in update Profile Image:", error);
+    throw error; // This will reject the promise with the error
   }
 }
 
 export async function getProfile() {
   try {
     const response = await axios.get("api/v1/user/profile")
+    console.log(response)
     return (response.data)
   } catch (error) {
     console.error(error)
@@ -109,6 +129,10 @@ export async function reLoginUser() {
     const response = await axios.post("api/v1/user/refresh-token")
     return (response.data)
   } catch (error) {
-    console.error(error)
+    if (error.response) {
+      toast.error(error.response.data?.message)
+    }
+    console.error("Error in reLogin:", error);
+    throw error; // This will reject the promise with the error
   }
 }

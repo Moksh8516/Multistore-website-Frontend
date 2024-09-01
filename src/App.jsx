@@ -42,6 +42,19 @@
 //   },
 // ]);
 
-function App() {}
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import Payment from "./Pages/Payment";
+const initialOptions = {
+  "client-id": "YOUR-CLIENT-ID-HERE",
+  currency: "USD",
+  intent: "capture",
+};
+function App() {
+  return (
+    <PayPalScriptProvider options={initialOptions}>
+      <Payment />
+    </PayPalScriptProvider>
+  );
+}
 
 export default App;

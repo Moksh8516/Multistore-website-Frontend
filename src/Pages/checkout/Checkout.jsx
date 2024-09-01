@@ -10,16 +10,12 @@ import {
   Button,
 } from "@mui/material";
 import CheckoutForm from "./CheckoutForm";
-const steps = ["Login", "Delivery", "Checkout", "Payment"];
+const steps = ["Login", "Checkout", "Payment", "Order"];
 function Checkout() {
   const [activeStep, setActiveStep] = useState(0);
   const location = useLocation();
   const reqParams = new URLSearchParams(location.search);
   const querySteps = parseInt(reqParams.get("step"));
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);

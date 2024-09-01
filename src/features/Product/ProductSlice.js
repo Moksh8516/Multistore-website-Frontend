@@ -44,9 +44,7 @@ export const fetchProductsByFilterAsync = createAsyncThunk(
 
 export const fetchProductByIdAsync = createAsyncThunk(
   'product/fetchProductById', async (id) => {
-
     const response = await fetchProductById(id);
-    console.log(response)
     return response.data;
   }
 )
@@ -76,20 +74,20 @@ export const ProductSlice = createSlice({
         state.status = "idle";
         state.products = action.payload;
       })
-      // .addCase(fetchCategoryAsync.pending, (state) => {
-      //   state.status = "loding";
-      // })
-      // .addCase(fetchCategoryAsync.fulfilled, (state, action) => {
-      //   state.status = "idle";
-      //   state.category = action.payload;
-      // })
-      // .addCase(fetchBrandAsync.pending, (state) => {
-      //   state.status = "loding";
-      // })
-      // .addCase(fetchBrandAsync.fulfilled, (state, action) => {
-      //   state.status = "idle";
-      //   state.brands = action.payload;
-      // })
+      .addCase(fetchCategoryAsync.pending, (state) => {
+        state.status = "loding";
+      })
+      .addCase(fetchCategoryAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.category = action.payload;
+      })
+      .addCase(fetchBrandAsync.pending, (state) => {
+        state.status = "loding";
+      })
+      .addCase(fetchBrandAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.brands = action.payload;
+      })
       .addCase(fetchProductByIdAsync.pending, (state) => {
         state.status = "loding";
       })

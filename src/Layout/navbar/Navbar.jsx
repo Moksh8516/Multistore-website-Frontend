@@ -125,9 +125,11 @@ function Navbar() {
                           />
                         </button>
                       </Link>
-                      <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 mb-7 -ml-2 text-xs  font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                        {cartItems.length}
-                      </span>
+                      {cartItems.length > 0 && (
+                        <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 mb-7 -ml-2 text-xs  font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                          {cartItems.length}
+                        </span>
+                      )}
                       {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">
                         <div>
@@ -246,9 +248,11 @@ function Navbar() {
                         />
                       </button>
                     </Link>
-                    <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1  mb-8 -ml-2 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                      {cartItems.length}
-                    </span>
+                    {cartItems.length > 0 && (
+                      <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1  mb-8 -ml-2 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                        {cartItems.length}
+                      </span>
+                    )}
                   </div>
                   <div className="mt-3 space-y-1 px-2">
                     {userNavigation.map((item) => (

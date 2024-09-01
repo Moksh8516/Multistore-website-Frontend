@@ -11,7 +11,7 @@ function SignOut() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(signoutUserAsync());
-  });
+  }, [dispatch]);
   return <>{!user && <Navigate to="/login" replace={true}></Navigate>}</>;
 }
 

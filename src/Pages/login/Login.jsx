@@ -4,6 +4,7 @@ import google_img from "../../assets/google.png";
 import { Link, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import {
   checkUserAsync,
   reLoginUserAsync,
@@ -19,8 +20,9 @@ function Login() {
   } = useForm();
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser);
+  console.log(user);
   const userMsg = useSelector(selectUserMessage);
-  const reqtoken = () => {
+  const reqtoken = (user) => {
     if (!user.refreshToken) {
       <Navigate to={"/signup"} replace={true}></Navigate>;
     }
@@ -56,14 +58,6 @@ function Login() {
                   required: "Email/Mobile Number is required",
                 })}
               />
-              {/* {email &&
-                (email != user.data.user.email ? (
-                  <span className="text-sm text-red-500 p-1">
-                    Please provide valid email/MobileNo
-                  </span>
-                ) : (
-                  ""
-                ))} */}
               {errors.email && (
                 <span className="text-sm text-red-500 p-1">
                   {errors.email?.message}

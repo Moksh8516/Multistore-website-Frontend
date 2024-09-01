@@ -17,6 +17,11 @@ import {
   Signout,
   ResetPassword,
 } from "../Pages/page";
+import AddressPage from "../Pages/addressSection/AddressPage";
+import Payment from "../Pages/Payment";
+import App from "../App";
+import OrderSucess from "../Pages/order/OrderSucess";
+
 function CustomerRoutes() {
   return (
     <Routes>
@@ -24,13 +29,16 @@ function CustomerRoutes() {
       <Route path="/product/:productId" element={<ProductOverview />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/Profile" element={<Profile />} />
+      <Route path="/address" element={<AddressPage />} />
       <Route path="/Setting" element={<Setting />} />
       <Route path="/login" element={<Login />} />
       <Route path="/logout" element={<Signout />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/forget-Password" element={<ForgetPassword />} />
       <Route path="/reset-Password/:token" element={<ResetPassword />} />
+      <Route path="/orderSuccess/:id" element={<OrderSucess />} />
       <Route path="/checkout-form" element={<Checkoutform />} />
+      <Route path="/Payment" element={<App />} />
       <Route path="/order" element={<OrderStatus />} />
       <Route path="*" element={<Errorpage />} />
     </Routes>

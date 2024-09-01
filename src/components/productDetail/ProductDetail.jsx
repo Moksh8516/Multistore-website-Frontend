@@ -87,13 +87,22 @@ let value = 4;
 function ProductDetail() {
   const params = useParams();
   const product = useSelector(selectProductById);
+  console.log(product);
   const [selectedSize, setSelectedSize] = useState(sizes[2]);
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser);
 
   const handleCart = (e) => {
     dispatch(
-      addToCartAsync({ ...product, quantity: 1, user: user.data.user._id })
+      addToCartAsync({
+        product,
+        productId: product._id,
+        price: product.price,
+        thumbnail: product.thumbnail,
+        title: product.title,
+        discount: product.discountPercentage,
+        quantity: 1,
+      })
     );
   };
 
@@ -153,15 +162,17 @@ function ProductDetail() {
                 <div className=" overflow-hidden rounded-lg max-w-[36rem] max-h-[35rem]">
                   <img
                     src={product.thumbnail}
-                    alt={product.images[0].alt}
                     className="h-full w-full object-cover object-center"
                   />
                 </div>
                 <div className="flex flex-wrap space-x-5 justify-center">
-                  {product.images.map((items) => (
-                    <div className=" max-w-[5rem] max-h-[5rem] mt-4 overflow-hidden rounded-lg">
+                  {product.images.map((items, index) => (
+                    <div
+                      key={index}
+                      className=" max-w-[5rem] max-h-[5rem] mt-4 overflow-hidden rounded-lg"
+                    >
                       <img
-                        src={items.src}
+                        src={items}
                         alt={items.alt}
                         className="h-full w-full object-cover object-center"
                       />
@@ -261,7 +272,7 @@ function ProductDetail() {
                     <div className="mt-6">
                       <div className="flex items-center justify-between">
                         <h3 className="text-sm font-medium text-gray-900">
-                          Size
+                          Sizes
                         </h3>
                       </div>
 
@@ -271,7 +282,8 @@ function ProductDetail() {
                           onChange={setSelectedSize}
                           className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-10"
                         >
-                          {sizes &&
+                          {product.category == "cloths" &&
+                            sizes &&
                             sizes.map((size) => (
                               <Radio
                                 key={size.name}
@@ -363,8 +375,8 @@ function ProductDetail() {
                         role="list"
                         className="list-disc space-y-2 pl-4 text-sm"
                       >
-                        {product.highlights &&
-                          product.highlights.map((highlight) => (
+                        {product?.highlights &&
+                          product?.highlights.map((highlight) => (
                             <li className="text-gray-400">
                               <span className="text-gray-600">{highlight}</span>
                             </li>
@@ -394,9 +406,9 @@ function ProductDetail() {
                     Customer Reviews
                   </h1>
                   <div className="p-5">
-                    {product.reviews.map((review) => (
+                    {/* {product.reviews.map((review) => (
                       <ProductReview review={review} />
-                    ))}
+                    ))} */}
                   </div>
                 </div>
               </div>
