@@ -33,6 +33,15 @@ export async function updateCart(id) {
   }
 }
 
+export async function clearCartItem() {
+  try {
+    const response = await axios.delete(`api/cart`)
+    return response;
+  } catch (error) {
+    console.error("Error in Clearcart Section", error)
+  }
+}
+
 export async function deleteCartItem(id) {
   console.log(id)
   try {

@@ -8,6 +8,7 @@ import {
   MenuItem,
   MenuItems,
 } from "@headlessui/react";
+import { Link } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
@@ -23,9 +24,9 @@ const sortOptions = [
   { name: "Price: High to Low", href: "#", current: false },
 ];
 const subCategories = [
-  { name: "Profile", href: "#" },
-  { name: "Change Password", href: "#" },
-  { name: "Setting", href: "#" },
+  { name: "Profile", href: "/Profile" },
+  { name: "Change Password", href: "/update-password" },
+  { name: "My Order", href: "/order" },
   { name: "Hip Bags", href: "#" },
   { name: "Laptop Sleeves", href: "#" },
 ];
@@ -105,8 +106,8 @@ function Setting() {
                   <div className="py-1">
                     {sortOptions.map((option) => (
                       <MenuItem key={option.name}>
-                        <a
-                          href={option.href}
+                        <Link
+                          to={option.href}
                           className={classNames(
                             option.current
                               ? "font-medium text-gray-900"
@@ -115,7 +116,7 @@ function Setting() {
                           )}
                         >
                           {option.name}
-                        </a>
+                        </Link>
                       </MenuItem>
                     ))}
                   </div>

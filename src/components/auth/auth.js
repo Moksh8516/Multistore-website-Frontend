@@ -57,7 +57,7 @@ export async function logout() {
 
 export async function forgetPassword(email) {
   try {
-    const response = await axios.post("api/v1/user/forgot-password", email)
+    const response = await axios.post("/api/v1/user/forgot-password", email)
     const data = response.data;
     return (data)
   } catch (error) {
@@ -86,19 +86,26 @@ export async function ResetPassword(newPassword) {
 
 export async function updateProfile(data) {
   try {
-    const response = await axios.patch("api/v1/user/update-profile", data)
+    const response = await axios.patch("/api/v1/user/update-profile", data)
     const data = response.data
     return (data)
   } catch (error) {
+    if (error.response) {
+      toast.error(error.response.data?.message)
+    }
     console.error("Error in updateProfile:", error);
     throw error; // This will reject the promise with the error
   }
 }
+
 export async function updatePassword(data) {
   try {
-    const response = await axios.patch("api/v1/user/update-password", data)
-    return (response.data)
+    const response = await axios.patch("/api/v1/user/update-password", data)
+    return (response)
   } catch (error) {
+    if (error.response) {
+      toast.error(error.response.data?.message)
+    }
     console.error("Error in update Password:", error);
     throw error; // This will reject the promise with the error
   }
@@ -106,10 +113,13 @@ export async function updatePassword(data) {
 
 export async function updateProfileImage(data) {
   try {
-    const response = await axios.patch("api/v1/user/update-profile-image", data)
+    const response = await axios.patch("/api/v1/user/update-profile-image", data)
     const data = response.data
     return (data)
   } catch (error) {
+    if (error.response) {
+      toast.error(error.response.data?.message)
+    }
     console.error("Error in update Profile Image:", error);
     throw error; // This will reject the promise with the error
   }
@@ -117,16 +127,16 @@ export async function updateProfileImage(data) {
 
 export async function getProfile() {
   try {
-    const response = await axios.get("api/v1/user/profile")
-    console.log(response)
+    const response = await axios.get("/api/v1/user/profile")
     return (response.data)
   } catch (error) {
     console.error(error)
   }
 }
+
 export async function reLoginUser() {
   try {
-    const response = await axios.post("api/v1/user/refresh-token")
+    const response = await axios.post("/api/v1/user/refresh-token")
     return (response.data)
   } catch (error) {
     if (error.response) {

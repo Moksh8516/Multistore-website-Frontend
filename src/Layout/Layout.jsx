@@ -13,7 +13,6 @@ import { readAddressAsync } from "../features/Address/addressSlice";
 function Layout() {
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser);
-  console.log(user);
 
   useEffect(() => {
     dispatch(getUserProfileAsync());

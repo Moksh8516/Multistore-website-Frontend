@@ -6,6 +6,7 @@ const initialState = {
   data: [],
   Message: null,
   error: "",
+  address: null
 }
 
 export const createAddressAsync = createAsyncThunk("address/create", async (addressData) => {
@@ -33,7 +34,11 @@ export const deleteAddressAsync = createAsyncThunk("address/delete", async (addr
 export const AddressSlice = createSlice({
   name: "Address",
   initialState,
-  reducers: {},
+  reducers: {
+    userSelectedAddress: (state, action) => {
+      state.address = action.payload
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createAddressAsync.pending, (state) => {
@@ -69,8 +74,7 @@ export const AddressSlice = createSlice({
       })
   },
 })
-
+export const { userSelectedAddress } = AddressSlice.actions;
 export const selectedAddress = (state) => state.address.data;
 export const AddressMessage = (state) => state.address.Message;
-
 export default AddressSlice.reducer;

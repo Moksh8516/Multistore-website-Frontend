@@ -1,19 +1,29 @@
-import React from "react";
-import { Link, useParams, Navigate } from "react-router-dom";
-function OrderSucess({ order }) {
-  const params = useParams();
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { resetOrder, selectOrder } from "../../features/Order/orderSlice";
+import { clearCartItemAsync } from "../../components/cart/cartSlice";
+function OrderSucess() {
+  const dispatch = useDispatch();
+  const CurrentOrder = useSelector(selectOrder);
+  console.log(CurrentOrder);
+  useEffect(() => {
+    dispatch(clearCartItemAsync());
+    dispatch(resetOrder());
+  }, [dispatch]);
 
   return (
     <>
       {/* {!params.id &&  <Navigate to='/' replace={true}></Navigate>} */}
       <main className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
         <div className="text-center">
-          <p className="text-base font-semibold text-indigo-600">
+          <p className="text-base font-semibold text-sky-600">
             Order Successfully Placed
           </p>
           <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-            Order Number #{params?._id}
+            Order Number #{CurrentOrder && CurrentOrder._id}
           </h1>
+
           <p className="mt-6 text-base leading-7 text-gray-600">
             You can check your order in My Account My Orders
           </p>

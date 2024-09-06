@@ -12,7 +12,6 @@ function ResetPassword() {
   const dispatch = useDispatch();
   const userMsg = useSelector(selectUserMessage);
   const navigate = useNavigate();
-  console.log(token);
   const {
     register,
     handleSubmit,

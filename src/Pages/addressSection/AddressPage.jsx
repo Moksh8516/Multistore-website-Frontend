@@ -28,7 +28,9 @@ function AddressPage() {
   const address = useSelector(selectedAddress);
   console.log(address);
   const notify = () => {
-    console.log(msg);
+    if (!msg) {
+      toast.error("Please fill all the fields");
+    }
     msg && toast.success(msg) && navigate("/checkout-form");
   };
   return (
@@ -36,6 +38,7 @@ function AddressPage() {
       <div className="grid grid-cols-1 gap-x-8 lg:grid-cols-5">
         <div className="lg:col-span-3">
           <form
+            autocomplete="off"
             noValidate
             className="bg-gray-100 px-4 py-4"
             onSubmit={handleSubmit(onSubmit)}
@@ -55,6 +58,7 @@ function AddressPage() {
                   <div className="mt-2">
                     <select
                       id="country"
+                      autocomplete="off"
                       {...register("country")}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset hover:bg-sky-50 bg-gray-100 ring-gray-500 focus:ring-2 focus:ring-inset focus:ring-sky-400 sm:max-w-xs sm:text-sm sm:leading-6"
                     >
@@ -77,6 +81,7 @@ function AddressPage() {
                       <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-500 focus-within:ring-2 focus-within:ring-inset focus-within:ring-sky-400 sm:max-w-md">
                         <input
                           type="text"
+                          autocomplete="off"
                           {...register("userName", {
                             required: "UserName is Required",
                           })}
@@ -103,6 +108,7 @@ function AddressPage() {
                       <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-500 focus-within:ring-2 focus-within:ring-inset focus-within:ring-sky-400 sm:max-w-md">
                         <input
                           type="number"
+                          autocomplete="off"
                           {...register("mobile_no", {
                             required: "Mobile Number is Required",
                           })}
@@ -142,6 +148,7 @@ function AddressPage() {
                     </label>
                     <div className="mt-2">
                       <input
+                        autocomplete="off"
                         id="email"
                         {...register("email", {
                           required: "Email is required",
@@ -167,6 +174,7 @@ function AddressPage() {
                     <div className="mt-2">
                       <input
                         type="text"
+                        autocomplete="off"
                         {...register("building_no", {
                           required: "House No is Required",
                         })}
@@ -191,6 +199,7 @@ function AddressPage() {
                     <div className="mt-2">
                       <input
                         type="text"
+                        autocomplete="off"
                         {...register("street", {
                           required: "Street is Required",
                         })}
@@ -233,6 +242,7 @@ function AddressPage() {
                     <div className="mt-2">
                       <input
                         type="text"
+                        autocomplete="off"
                         {...register("pincode", {
                           required: "PinCode is Required",
                         })}
@@ -257,6 +267,7 @@ function AddressPage() {
                     <div className="mt-2">
                       <input
                         type="text"
+                        autocomplete="off"
                         {...register("city", {
                           required: "City Name is Required",
                         })}
@@ -281,6 +292,7 @@ function AddressPage() {
                       <select
                         id="state"
                         name="state"
+                        autocomplete="off"
                         {...register("state", {
                           required: "State field is Required",
                         })}

@@ -151,7 +151,8 @@ export const userSlice = createSlice({
       })
       .addCase(updateUserPasswordAsync.fulfilled, (state, action) => {
         state.status = "idle";
-        state.message = action.payload.message // update the state
+        state.Success = true,
+          state.message = action.payload.message// update the state
       })
       .addCase(updateUserProfileImageAsync.pending, (state) => {
         state.status = "loading"

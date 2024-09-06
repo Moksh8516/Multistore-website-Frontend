@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { selectOrder } from "../../features/Order/orderSlice";
+
 function OrderDetail() {
+  const currentorder = useSelector(selectOrder);
+  console.log(currentorder);
   return (
     <div className="p-4 shadow-lg border-2 rounded-lg hover:shadow-2xl  mt-2">
       <Grid

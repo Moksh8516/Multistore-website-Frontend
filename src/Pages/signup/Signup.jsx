@@ -42,6 +42,28 @@ function Signup() {
             >
               <div>
                 <label
+                  htmlFor="userName"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  UserName
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="userName"
+                    type="text"
+                    {...register("userName", {
+                      required: "User Name is required",
+                    })}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                  {/* {email!=user.email} */}
+                  {errors.userName && (
+                    <span className="text-sm text-red-500 p-1">
+                      {errors.userName?.message}
+                    </span>
+                  )}
+                </div>
+                <label
                   htmlFor="email"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >

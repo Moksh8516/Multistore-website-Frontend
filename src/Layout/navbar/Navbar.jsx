@@ -19,11 +19,8 @@ import {
 import { selectedCartItem } from "../../components/cart/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 // import { logout } from "../../components/auth/auth";
-import {
-  selectLoggedInUser,
-  signoutUserAsync,
-} from "../../components/auth/authSlice";
-
+import { selectLoggedInUser } from "../../components/auth/authSlice";
+import dummyimage from "../../assets/login.jpg";
 const user = {
   name: "Tom Cook",
   email: "tom@example.com",
@@ -40,7 +37,7 @@ const navigation = [
 ];
 
 const userNavigation = [
-  { name: "Your Profile", href: "/Profile" },
+  { name: "Your Profile", href: "/MyProfile" },
   { name: "Settings", href: "/Setting" },
   { name: "SignOut", href: "/logout" },
 ];
@@ -53,6 +50,7 @@ function Navbar() {
   const dispatch = useDispatch();
   const cartItems = useSelector(selectedCartItem);
   const userId = useSelector(selectLoggedInUser);
+  console.log(userId);
   // const handlebutton = (userId) => {
   //   if (userId) {
   //     return {
@@ -138,7 +136,7 @@ function Navbar() {
                             <span className="sr-only">Open user menu</span>
                             <img
                               className="h-8 w-8 rounded-full"
-                              src={user.imageUrl}
+                              src={dummyimage}
                               alt=""
                             />
                           </MenuButton>
@@ -229,10 +227,14 @@ function Navbar() {
                     </div>
                     <div className="ml-3">
                       <div className="text-base font-medium leading-none text-white">
-                        {user.name}
+                        {userId && userId.user && userId.user.userName
+                          ? userId.user.userName
+                          : user && user.name}
                       </div>
                       <div className="text-sm font-medium leading-none text-gray-400">
-                        {user.email}
+                        {userId && userId.user && userId.user.email
+                          ? userId.user.email
+                          : user && user.email}
                       </div>
                     </div>
                     <Link to="/cart">
