@@ -6,7 +6,7 @@ import ForgetPassword from "./ForgotPassword.jsx"
 import ResetPassword from "./ResetPassword.jsx"
 import UpdatePaasword from "./UpdatePassword.jsx"
 import Payment from "./Payment.jsx"
-
+import CartPage from "./CartPage.jsx"
 export {
   Profile,
   Errorpage,
@@ -16,4 +16,5 @@ export {
   ResetPassword,
   UpdatePaasword,
   Payment,
+  CartPage
 }

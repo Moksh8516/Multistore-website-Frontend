@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Fragment, useState } from "react";
 import { Pagination, Stack } from "@mui/material";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Fragment, useState } from "react";
+import { Link } from "react-router-dom";
+import { ITEMS_PER_PAGE } from "../../app/constant.js";
 import {
   Dialog,
   DialogPanel,
@@ -118,12 +118,14 @@ function ProductList() {
     setSort(sort);
   };
 
-  const handlePage = (e, page) => {
-    setPage(page);
+  const handlePage = (e, value) => {
+    setPage(value);
   };
 
   useEffect(() => {
-    dispatch(fetchProductsByFilterAsync({ filter, sort, page }));
+    const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
+    console.log(pagination);
+    dispatch(fetchProductsByFilterAsync({ filter, sort, pagination }));
   }, [dispatch, filter, sort, page]);
 
   useEffect(() => {
@@ -333,7 +335,7 @@ function ProductList() {
 
           {/* Pagination  */}
           <div className="flex justify-center m-4">
-            <PaginationStack />
+            <PaginationStack Page={handlePage} page={page} />
           </div>
         </main>
       </div>
@@ -450,10 +452,14 @@ function ProductContent({ products, filters }) {
   );
 }
 
-function PaginationStack({ handlePage, page, setPage }) {
+function PaginationStack({ Page }) {
   return (
     <Stack spacing={2}>
-      <Pagination count={10} color="primary" />
+      <Pagination
+        count={3}
+        color="primary"
+        onChange={(e, value) => Page(e, value)}
+      />
     </Stack>
   );
 }

@@ -30,7 +30,6 @@ function CheckoutForm() {
   const AvgDiscount = parseInt(totalDiscount / totalItems);
 
   const handleRemoveCartItem = (id) => {
-    console.log(id);
     dispatch(deleteCartItemAsync(id));
   };
 
@@ -124,15 +123,15 @@ function CheckoutForm() {
             <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
               <div className="flex justify-between text-base font-medium text-gray-900">
                 <p>Subtotal</p>
-                <p>{totalAmount}</p>
+                <p>₹{totalAmount}</p>
               </div>
               <div className="flex justify-between text-base font-medium text-gray-900">
                 <p>Discount</p>
-                <p>{AvgDiscount}</p>
+                <p className="text-red-500 font-semibold">-{AvgDiscount}%</p>
               </div>
               <div className="flex justify-between text-base font-medium text-gray-900">
                 <p>Total Price</p>
-                <p>{parseInt(totalAmount)}</p>
+                <p>₹{parseInt(totalAmount)}</p>
               </div>
               <div className="flex justify-between text-base font-medium text-gray-900">
                 <p>Total items in Cart</p>

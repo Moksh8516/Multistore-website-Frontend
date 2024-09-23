@@ -5,7 +5,7 @@ import {
   Login,
   ProductList,
   Signup,
-  Cart,
+  // Cart,
   Checkoutform,
   ProductOverview,
   OrderStatus,
@@ -20,6 +20,7 @@ import {
   ResetPassword,
   Payment,
   UpdatePaasword,
+  CartPage,
 } from "../Pages/page";
 
 import AddressPage from "../Pages/addressSection/AddressPage";
@@ -33,7 +34,7 @@ function CustomerRoutes() {
     <Routes>
       <Route path="/product" element={<ProductList />} />
       <Route path="/product/:productId" element={<ProductOverview />} />
-      <Route path="/cart" element={<Cart />} />
+      <Route path="/cart" element={<CartPage />} />
       <Route path="/Profile" element={<Profile />} />
       <Route path="/MyProfile" element={<MyProfile />} />
       <Route path="/update-password" element={<UpdatePaasword />} />

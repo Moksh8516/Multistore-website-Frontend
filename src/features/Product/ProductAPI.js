@@ -40,7 +40,7 @@ export async function fetchBrand() {
   }
 }
 
-export async function fetchProductsByFilter(values, sort, page) {
+export async function fetchProductsByFilter(values, sort, pagination) {
   let queryString = "";
   for (let key in values) {
     queryString += `${key}=${values[key]}&`
@@ -50,8 +50,9 @@ export async function fetchProductsByFilter(values, sort, page) {
     queryString += `${key}=${sort[key]}&`
   }
 
-  for (let key in page) {
-    queryString += `${key}=${page[key]}&`
+
+  for (let key in pagination) {
+    queryString += `${key}=${pagination[key]}&`
   }
 
   try {
