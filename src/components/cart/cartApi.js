@@ -24,7 +24,7 @@ export async function fecthItemsByUserId() {
 export async function updateCart(id) {
 
   try {
-    const response = await axios.patch(`api/cart/items/${id}`)
+    const response = await axios.patch(`/api/cart/items/${id}`)
     console.log(response)
     const data = response.data
     return data;
@@ -35,7 +35,7 @@ export async function updateCart(id) {
 
 export async function clearCartItem() {
   try {
-    const response = await axios.delete(`api/cart`)
+    const response = await axios.delete(`/api/cart`)
     return response;
   } catch (error) {
     console.error("Error in Clearcart Section", error)
@@ -45,7 +45,7 @@ export async function clearCartItem() {
 export async function deleteCartItem(id) {
   console.log(id)
   try {
-    const response = await axios.delete(`api/cart/items/${id}`)
+    const response = await axios.delete(`/api/cart/items/${id}`)
     console.log(response)
     const data = response.data
     return data;

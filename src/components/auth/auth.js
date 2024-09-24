@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 
 export async function createUser(userData) {
   try {
-    const response = await axios.post("api/v1/user/register", userData)
+    const response = await axios.post("/api/v1/user/register", userData)
     const data = response.data
     return data
   } catch (error) {

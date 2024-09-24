@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function fetchAllProducts() {
   try {
-    const response = await axios.get("api/product");
+    const response = await axios.get("/api/product");
     const data = response.data;
     return { data }
   } catch (error) {
@@ -32,7 +32,7 @@ export async function fetchCategory() {
 
 export async function fetchBrand() {
   try {
-    const response = await axios.get("api/brands")
+    const response = await axios.get("/api/brands")
     const data = response.data
     return (data)
   } catch (error) {
@@ -56,7 +56,7 @@ export async function fetchProductsByFilter(values, sort, pagination) {
   }
 
   try {
-    const response = await axios.get(`api/product?${queryString}`);
+    const response = await axios.get(`/api/product?${queryString}`);
     const data = response.data;
     return (data)
   } catch (error) {
