@@ -25,16 +25,13 @@ function Payment() {
     const stripe = await loadStripe(
       "pk_test_51PuYDPEC6zxHPE2aEPreKwsWvL5oRdIhX1Ab8MuExcv5b1BA1enRomSpStQTP9zzALx1ymZFjCSBdtjOsmulDwnT00UEj80TEw"
     );
-    const response = await fetch(
-      "http://localhost:4040/api/payment/create-payment-intent",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ currentOrder }),
-      }
-    );
+    const response = await fetch("/api/payment/create-payment-intent", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ currentOrder }),
+    });
     const session = await response.json();
     const result = stripe.redirectToCheckout({
       sessionId: session.id,

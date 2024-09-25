@@ -12,7 +12,7 @@ export async function fetchAllProducts() {
 
 export async function fetchProductById(id) {
   try {
-    const response = await axios.get(`http://localhost:4040/api/product/${id}`)
+    const response = await axios.get(`/api/product/${id}`)
     const data = response.data;
     return (data)
   } catch (error) {
