@@ -56,7 +56,7 @@ export async function fetchProductsByFilter(values, sort, pagination) {
   }
 
   try {
-    const response = await axios.get(`/api/product?${queryString}`);
+    const response = await axios.get(`https://multistore-ecommerce-api.vercel.app/api/product?${queryString}`);
     const data = response.data;
     return (data)
   } catch (error) {

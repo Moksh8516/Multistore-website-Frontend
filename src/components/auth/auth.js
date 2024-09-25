@@ -1,4 +1,3 @@
-import { ErrorRounded } from "@mui/icons-material";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -71,7 +70,7 @@ export async function forgetPassword(email) {
 
 export async function ResetPassword(newPassword) {
   try {
-    const response = await axios.patch(`http://localhost:4040/api/v1/user/reset-Password/${newPassword.token}`, newPassword.data)
+    const response = await axios.patch(`/api/v1/user/reset-Password/${newPassword.token}`, newPassword.data)
     const data = response.data
     return (data)
   } catch (error) {
