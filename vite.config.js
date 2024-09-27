@@ -7,7 +7,7 @@ export default defineConfig({
   envPrefix: 'REACT_APP_',
   server: {
     proxy: {
-      '/api': 'https://multistore-ecommerce-api.vercel.app'
+      '/api': 'http://localhost:4040'
     }
   }
 })
