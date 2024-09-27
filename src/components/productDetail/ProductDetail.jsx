@@ -87,11 +87,9 @@ let value = 4;
 function ProductDetail() {
   const params = useParams();
   const product = useSelector(selectProductById);
-  console.log(product);
   const [selectedSize, setSelectedSize] = useState(sizes[2]);
   const dispatch = useDispatch();
   const user = useSelector(selectLoggedInUser);
-
   const handleCart = (e) => {
     dispatch(
       addToCartAsync({
