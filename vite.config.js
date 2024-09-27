@@ -7,12 +7,7 @@ export default defineConfig({
   envPrefix: 'REACT_APP_',
   server: {
     proxy: {
-      '/api':
-      {
-        target: 'https://multistore-ecommerce-api.vercel.app',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
-      }
+      '/api': 'https://multistore-ecommerce-api.vercel.app'
     }
   }
 })
